@@ -1,0 +1,59 @@
+Program p4main;
+
+Int i1,i2:= #23-#4+#1;
+Int i3:=#10;
+Bool b1:= i1 .GT. i3 And Then True;
+Bool b2 :=(False Or Else True) .GT. (#-1+#2);
+Bool b3:=True And Then False;
+Bool b4:=True Or Else False;
+
+Function f1 (Int i1;Int i3; Bool b3 ): Bool
+ 	 Begin 
+ 	 	While b4 .GT. b3 Do Begin 
+ 	 	 For i1 :=#20 To #23 Do Begin
+				For i2 :=#5 Downto #0 Do Begin
+					i3:=i3+#2; 
+					b3:= False .NE. (#1-#1)
+				End
+			End;
+		End;	
+		Return b3
+	End;
+
+Procedure p1 (Int i1; Bool b1)
+ 	
+	Int i4:=#2;
+	Int i5:=#3;
+ 	Function f2 (Int i1, i2, i3): Int
+ 	 Begin 
+ 	 	While b4 .GT. b3 Do Begin 
+ 	 	 For i1 := i2 To #25 Do Begin
+				For i2 := i3 Downto #0 Do Begin
+					i3:=i3+#2 
+				End
+			End;
+		End;	
+		Return i3
+	End;
+
+Begin 
+   If i1 .GT. #2 Then Begin 
+   			i1:=i1+#5
+   		End Else 
+   		
+   			i1:=#0;
+
+   Case i5
+		#1 : Begin
+			True
+		End;
+		
+		#2 : False;
+		#3 : If i4 .GT. i2 Or Else i3 .LT. i2 Then Begin 
+   			i4 := i4 + #3
+   		End;	
+
+  End 				
+  ;
+
+

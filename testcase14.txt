@@ -1,0 +1,47 @@
+Program p14main;
+Int x2;
+Int n2;
+Function f1act (Int n1): Int
+
+Begin
+	If (n1 .EQ. #0) Then
+		Return #1
+	Else
+		x2:= f1act(n1-#1)
+	;
+	Return n1*x2
+End;
+
+
+
+
+
+Procedure p1(Int i1,i2;Bool b1)
+ Int i7;
+ Int x3;
+	Procedure p2(Int i3,i4)
+	Begin
+		x3:=f1act(#3);
+		If (x3 .EQ. #6)Then 
+		Begin 
+			x3:= x3+i4;
+			x2:=x3
+		End
+	End;
+	Begin 
+		While (i2.GT. i1) Do
+		Begin 
+			For i1:=#2 To i2 Do 
+			Begin
+				f1act(#4);
+				i2:=i2-#1;
+				p2(#3,#4)
+			End
+		End
+	End;
+Begin 
+
+	p1(#5,#3,True)
+
+
+End;	

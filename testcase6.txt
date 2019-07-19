@@ -1,0 +1,18 @@
+Program p6main;
+
+Int a1;
+Bool b1;
+Bool b2;
+Bool x1;
+
+Function f1(Int a1;Bool b1): Bool
+Begin 
+	b2:=(b1 And Then True) .LT. a1;
+	Return b2
+End;
+
+Begin
+
+x1:= f1(#3,False)
+
+End;

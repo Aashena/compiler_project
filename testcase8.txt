@@ -1,0 +1,22 @@
+
+Program p8main;
+
+Int x2;
+Int r1; 
+
+Function f1act (Int n1): Int
+
+Begin
+	If (n1 .EQ. #0) Then
+		Return #1
+	Else
+		x2:= f1act(n1-#1)
+	;
+	Return n1*x2
+End;
+
+Begin 
+
+r1:= f1act(#5)
+
+End;

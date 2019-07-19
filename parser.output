@@ -1,0 +1,2767 @@
+Terminals unused in grammar
+
+   ZERO
+   ERROR
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: PROGRAM IDENTIFIER PM SEMICOLON declist block M SEMICOLON
+    2        | PROGRAM IDENTIFIER PM SEMICOLON block M SEMICOLON
+
+    3 PM: /* empty */
+
+    4 declist: dec
+    5        | declist dec
+
+    6 dec: vardec
+    7    | procdec
+    8    | funcdec
+
+    9 type: INT
+   10     | REAL
+   11     | BOOL
+
+   12 iddec: IDENTIFIER
+
+   13 $@1: /* empty */
+
+   14 iddec: IDENTIFIER $@1 DECLARE exp
+
+   15 idlist: iddec
+   16       | idlist COMMA iddec
+
+   17 vardec: type idlist SEMICOLON
+
+   18 $@2: /* empty */
+
+   19 $@3: /* empty */
+
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@2 declist $@3 block M ret M SEMICOLON
+
+   21 $@4: /* empty */
+
+   22 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@4 block M ret M SEMICOLON
+
+   23 $@5: /* empty */
+
+   24 $@6: /* empty */
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@5 declist $@6 block M ret M SEMICOLON
+
+   26 $@7: /* empty */
+
+   27 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@7 block M ret M SEMICOLON
+
+   28 ret: /* empty */
+
+   29 NP: /* empty */
+
+   30 paramdecs: paramdec
+   31          | paramdecs SEMICOLON paramdec
+   32          | /* empty */
+
+   33 paramdec: type paramlist
+
+   34 paramlist: IDENTIFIER
+   35          | paramlist COMMA IDENTIFIER
+
+   36 block: BEGINN stmtlist END
+   37      | stmt
+
+   38 stmtlist: stmt
+   39         | stmtlist SEMICOLON M stmt
+
+   40 lvalue: IDENTIFIER
+
+   41 $@8: /* empty */
+
+   42 stmt: lvalue DECLARE $@8 exp
+   43     | IF exp THEN M block
+   44     | IF exp THEN M block ELSE NS M block
+   45     | WHILE M exp DO M block
+
+   46 $@9: /* empty */
+
+   47 $@10: /* empty */
+
+   48 stmt: FOR lvalue DECLARE exp TO $@9 M exp $@10 DO block M
+
+   49 $@11: /* empty */
+
+   50 $@12: /* empty */
+
+   51 stmt: FOR lvalue DECLARE exp DOWNTO $@11 M exp $@12 DO block M
+
+   52 $@13: /* empty */
+
+   53 stmt: CASE exp $@13 caseelement M END
+
+   54 $@14: /* empty */
+
+   55 stmt: RETURN exp $@14 ret
+   56     | exp
+
+   57 NS: /* empty */
+
+   58 exp: exp ANDTHEN M exp
+   59    | exp ORELSE M exp
+   60    | exp PLUS exp
+   61    | exp MINUS exp
+   62    | exp MULTIPLY exp
+   63    | exp DIVISION exp
+   64    | OPPAR exp CPAR
+   65    | boolexp relop boolexp
+   66    | constant
+   67    | TRUE
+   68    | FALSE
+   69    | lvalue
+   70    | IDENTIFIER OPPAR explist CPAR
+
+   71 M: /* empty */
+
+   72 constant: INTEGER
+   73         | REALNUM
+
+   74 boolexp: OPPAR exp CPAR
+   75        | INTEGER
+   76        | REALNUM
+   77        | TRUE
+   78        | FALSE
+   79        | lvalue
+   80        | IDENTIFIER OPPAR explist CPAR
+
+   81 caseelement: INTEGER COLON M block SEMICOLON
+   82            | caseelement INTEGER COLON M block SEMICOLON
+
+   83 explist: exp
+   84        | explist COMMA exp
+   85        | /* empty */
+
+   86 relop: GREATERTHAN
+   87      | GREATEREQUAL
+   88      | NOTEQUAL
+   89      | EQUAL
+   90      | LESSTHAN
+   91      | LESSEQUAL
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+INTEGER (258) 72 75 81 82
+ZERO (259)
+REALNUM (260) 73 76
+PROGRAM (261) 1 2
+INT (262) 9
+REAL (263) 10
+BOOL (264) 11
+PROCEDURE (265) 20 22
+FUNCTION (266) 25 27
+BEGINN (267) 36
+END (268) 36 53
+IF (269) 43 44
+THEN (270) 43 44
+ELSE (271) 44
+WHILE (272) 45
+DO (273) 45 48 51
+FOR (274) 48 51
+TO (275) 48
+DOWNTO (276) 51
+CASE (277) 53
+RETURN (278) 55
+ANDTHEN (279) 58
+ORELSE (280) 59
+IDENTIFIER (281) 1 2 12 14 20 22 25 27 34 35 40 70 80
+MINUS (282) 61
+MULTIPLY (283) 62
+DIVISION (284) 63
+GREATERTHAN (285) 86
+GREATEREQUAL (286) 87
+NOTEQUAL (287) 88
+EQUAL (288) 89
+LESSTHAN (289) 90
+LESSEQUAL (290) 91
+COMMA (291) 16 35 84
+SEMICOLON (292) 1 2 17 20 22 25 27 31 39 81 82
+COLON (293) 25 27 81 82
+DECLARE (294) 14 42 48 51
+OPPAR (295) 20 22 25 27 64 70 74 80
+CPAR (296) 20 22 25 27 64 70 74 80
+FALSE (297) 68 78
+TRUE (298) 67 77
+ERROR (299)
+IF_PREC (300)
+PLUS (301) 60
+
+
+Nonterminals, with rules where they appear
+
+$accept (47)
+    on left: 0
+program (48)
+    on left: 1 2, on right: 0
+PM (49)
+    on left: 3, on right: 1 2
+declist (50)
+    on left: 4 5, on right: 1 5 20 25
+dec (51)
+    on left: 6 7 8, on right: 4 5
+type (52)
+    on left: 9 10 11, on right: 17 25 27 33
+iddec (53)
+    on left: 12 14, on right: 15 16
+$@1 (54)
+    on left: 13, on right: 14
+idlist (55)
+    on left: 15 16, on right: 16 17
+vardec (56)
+    on left: 17, on right: 6
+procdec (57)
+    on left: 20 22, on right: 7
+$@2 (58)
+    on left: 18, on right: 20
+$@3 (59)
+    on left: 19, on right: 20
+$@4 (60)
+    on left: 21, on right: 22
+funcdec (61)
+    on left: 25 27, on right: 8
+$@5 (62)
+    on left: 23, on right: 25
+$@6 (63)
+    on left: 24, on right: 25
+$@7 (64)
+    on left: 26, on right: 27
+ret (65)
+    on left: 28, on right: 20 22 25 27 55
+NP (66)
+    on left: 29, on right: 20 22 25 27
+paramdecs (67)
+    on left: 30 31 32, on right: 20 22 25 27 31
+paramdec (68)
+    on left: 33, on right: 30 31
+paramlist (69)
+    on left: 34 35, on right: 33 35
+block (70)
+    on left: 36 37, on right: 1 2 20 22 25 27 43 44 45 48 51 81 82
+stmtlist (71)
+    on left: 38 39, on right: 36 39
+lvalue (72)
+    on left: 40, on right: 42 48 51 69 79
+stmt (73)
+    on left: 42 43 44 45 48 51 53 55 56, on right: 37 38 39
+$@8 (74)
+    on left: 41, on right: 42
+$@9 (75)
+    on left: 46, on right: 48
+$@10 (76)
+    on left: 47, on right: 48
+$@11 (77)
+    on left: 49, on right: 51
+$@12 (78)
+    on left: 50, on right: 51
+$@13 (79)
+    on left: 52, on right: 53
+$@14 (80)
+    on left: 54, on right: 55
+NS (81)
+    on left: 57, on right: 44
+exp (82)
+    on left: 58 59 60 61 62 63 64 65 66 67 68 69 70, on right: 14 42
+    43 44 45 48 51 53 55 56 58 59 60 61 62 63 64 74 83 84
+M (83)
+    on left: 71, on right: 1 2 20 22 25 27 39 43 44 45 48 51 53 58
+    59 81 82
+constant (84)
+    on left: 72 73, on right: 66
+boolexp (85)
+    on left: 74 75 76 77 78 79 80, on right: 65
+caseelement (86)
+    on left: 81 82, on right: 53 82
+explist (87)
+    on left: 83 84 85, on right: 70 80 84
+relop (88)
+    on left: 86 87 88 89 90 91, on right: 65
+
+
+State 0
+
+    0 $accept: . program $end
+
+    PROGRAM  shift, and go to state 1
+
+    program  go to state 2
+
+
+State 1
+
+    1 program: PROGRAM . IDENTIFIER PM SEMICOLON declist block M SEMICOLON
+    2        | PROGRAM . IDENTIFIER PM SEMICOLON block M SEMICOLON
+
+    IDENTIFIER  shift, and go to state 3
+
+
+State 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 program: PROGRAM IDENTIFIER . PM SEMICOLON declist block M SEMICOLON
+    2        | PROGRAM IDENTIFIER . PM SEMICOLON block M SEMICOLON
+
+    $default  reduce using rule 3 (PM)
+
+    PM  go to state 5
+
+
+State 4
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 5
+
+    1 program: PROGRAM IDENTIFIER PM . SEMICOLON declist block M SEMICOLON
+    2        | PROGRAM IDENTIFIER PM . SEMICOLON block M SEMICOLON
+
+    SEMICOLON  shift, and go to state 6
+
+
+State 6
+
+    1 program: PROGRAM IDENTIFIER PM SEMICOLON . declist block M SEMICOLON
+    2        | PROGRAM IDENTIFIER PM SEMICOLON . block M SEMICOLON
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    INT         shift, and go to state 9
+    REAL        shift, and go to state 10
+    BOOL        shift, and go to state 11
+    PROCEDURE   shift, and go to state 12
+    FUNCTION    shift, and go to state 13
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    declist   go to state 24
+    dec       go to state 25
+    type      go to state 26
+    vardec    go to state 27
+    procdec   go to state 28
+    funcdec   go to state 29
+    block     go to state 30
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 7
+
+   72 constant: INTEGER .
+   75 boolexp: INTEGER .
+
+    GREATERTHAN   reduce using rule 75 (boolexp)
+    GREATEREQUAL  reduce using rule 75 (boolexp)
+    NOTEQUAL      reduce using rule 75 (boolexp)
+    EQUAL         reduce using rule 75 (boolexp)
+    LESSTHAN      reduce using rule 75 (boolexp)
+    LESSEQUAL     reduce using rule 75 (boolexp)
+    $default      reduce using rule 72 (constant)
+
+
+State 8
+
+   73 constant: REALNUM .
+   76 boolexp: REALNUM .
+
+    GREATERTHAN   reduce using rule 76 (boolexp)
+    GREATEREQUAL  reduce using rule 76 (boolexp)
+    NOTEQUAL      reduce using rule 76 (boolexp)
+    EQUAL         reduce using rule 76 (boolexp)
+    LESSTHAN      reduce using rule 76 (boolexp)
+    LESSEQUAL     reduce using rule 76 (boolexp)
+    $default      reduce using rule 73 (constant)
+
+
+State 9
+
+    9 type: INT .
+
+    $default  reduce using rule 9 (type)
+
+
+State 10
+
+   10 type: REAL .
+
+    $default  reduce using rule 10 (type)
+
+
+State 11
+
+   11 type: BOOL .
+
+    $default  reduce using rule 11 (type)
+
+
+State 12
+
+   20 procdec: PROCEDURE . IDENTIFIER NP OPPAR paramdecs CPAR M $@2 declist $@3 block M ret M SEMICOLON
+   22        | PROCEDURE . IDENTIFIER NP OPPAR paramdecs CPAR M $@4 block M ret M SEMICOLON
+
+    IDENTIFIER  shift, and go to state 36
+
+
+State 13
+
+   25 funcdec: FUNCTION . IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@5 declist $@6 block M ret M SEMICOLON
+   27        | FUNCTION . IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@7 block M ret M SEMICOLON
+
+    IDENTIFIER  shift, and go to state 37
+
+
+State 14
+
+   36 block: BEGINN . stmtlist END
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    stmtlist  go to state 38
+    lvalue    go to state 31
+    stmt      go to state 39
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 15
+
+   43 stmt: IF . exp THEN M block
+   44     | IF . exp THEN M block ELSE NS M block
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 41
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 16
+
+   45 stmt: WHILE . M exp DO M block
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 42
+
+
+State 17
+
+   48 stmt: FOR . lvalue DECLARE exp TO $@9 M exp $@10 DO block M
+   51     | FOR . lvalue DECLARE exp DOWNTO $@11 M exp $@12 DO block M
+
+    IDENTIFIER  shift, and go to state 43
+
+    lvalue  go to state 44
+
+
+State 18
+
+   53 stmt: CASE . exp $@13 caseelement M END
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 45
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 19
+
+   55 stmt: RETURN . exp $@14 ret
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 46
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 20
+
+   40 lvalue: IDENTIFIER .
+   70 exp: IDENTIFIER . OPPAR explist CPAR
+   80 boolexp: IDENTIFIER . OPPAR explist CPAR
+
+    OPPAR  shift, and go to state 47
+
+    $default  reduce using rule 40 (lvalue)
+
+
+State 21
+
+   64 exp: OPPAR . exp CPAR
+   74 boolexp: OPPAR . exp CPAR
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 48
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 22
+
+   68 exp: FALSE .
+   78 boolexp: FALSE .
+
+    GREATERTHAN   reduce using rule 78 (boolexp)
+    GREATEREQUAL  reduce using rule 78 (boolexp)
+    NOTEQUAL      reduce using rule 78 (boolexp)
+    EQUAL         reduce using rule 78 (boolexp)
+    LESSTHAN      reduce using rule 78 (boolexp)
+    LESSEQUAL     reduce using rule 78 (boolexp)
+    $default      reduce using rule 68 (exp)
+
+
+State 23
+
+   67 exp: TRUE .
+   77 boolexp: TRUE .
+
+    GREATERTHAN   reduce using rule 77 (boolexp)
+    GREATEREQUAL  reduce using rule 77 (boolexp)
+    NOTEQUAL      reduce using rule 77 (boolexp)
+    EQUAL         reduce using rule 77 (boolexp)
+    LESSTHAN      reduce using rule 77 (boolexp)
+    LESSEQUAL     reduce using rule 77 (boolexp)
+    $default      reduce using rule 67 (exp)
+
+
+State 24
+
+    1 program: PROGRAM IDENTIFIER PM SEMICOLON declist . block M SEMICOLON
+    5 declist: declist . dec
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    INT         shift, and go to state 9
+    REAL        shift, and go to state 10
+    BOOL        shift, and go to state 11
+    PROCEDURE   shift, and go to state 12
+    FUNCTION    shift, and go to state 13
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    dec       go to state 49
+    type      go to state 26
+    vardec    go to state 27
+    procdec   go to state 28
+    funcdec   go to state 29
+    block     go to state 50
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 25
+
+    4 declist: dec .
+
+    $default  reduce using rule 4 (declist)
+
+
+State 26
+
+   17 vardec: type . idlist SEMICOLON
+
+    IDENTIFIER  shift, and go to state 51
+
+    iddec   go to state 52
+    idlist  go to state 53
+
+
+State 27
+
+    6 dec: vardec .
+
+    $default  reduce using rule 6 (dec)
+
+
+State 28
+
+    7 dec: procdec .
+
+    $default  reduce using rule 7 (dec)
+
+
+State 29
+
+    8 dec: funcdec .
+
+    $default  reduce using rule 8 (dec)
+
+
+State 30
+
+    2 program: PROGRAM IDENTIFIER PM SEMICOLON block . M SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 54
+
+
+State 31
+
+   42 stmt: lvalue . DECLARE $@8 exp
+   69 exp: lvalue .
+   79 boolexp: lvalue .
+
+    DECLARE  shift, and go to state 55
+
+    GREATERTHAN   reduce using rule 79 (boolexp)
+    GREATEREQUAL  reduce using rule 79 (boolexp)
+    NOTEQUAL      reduce using rule 79 (boolexp)
+    EQUAL         reduce using rule 79 (boolexp)
+    LESSTHAN      reduce using rule 79 (boolexp)
+    LESSEQUAL     reduce using rule 79 (boolexp)
+    $default      reduce using rule 69 (exp)
+
+
+State 32
+
+   37 block: stmt .
+
+    $default  reduce using rule 37 (block)
+
+
+State 33
+
+   56 stmt: exp .
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+    $default  reduce using rule 56 (stmt)
+
+
+State 34
+
+   66 exp: constant .
+
+    $default  reduce using rule 66 (exp)
+
+
+State 35
+
+   65 exp: boolexp . relop boolexp
+
+    GREATERTHAN   shift, and go to state 62
+    GREATEREQUAL  shift, and go to state 63
+    NOTEQUAL      shift, and go to state 64
+    EQUAL         shift, and go to state 65
+    LESSTHAN      shift, and go to state 66
+    LESSEQUAL     shift, and go to state 67
+
+    relop  go to state 68
+
+
+State 36
+
+   20 procdec: PROCEDURE IDENTIFIER . NP OPPAR paramdecs CPAR M $@2 declist $@3 block M ret M SEMICOLON
+   22        | PROCEDURE IDENTIFIER . NP OPPAR paramdecs CPAR M $@4 block M ret M SEMICOLON
+
+    $default  reduce using rule 29 (NP)
+
+    NP  go to state 69
+
+
+State 37
+
+   25 funcdec: FUNCTION IDENTIFIER . NP OPPAR paramdecs CPAR COLON type M $@5 declist $@6 block M ret M SEMICOLON
+   27        | FUNCTION IDENTIFIER . NP OPPAR paramdecs CPAR COLON type M $@7 block M ret M SEMICOLON
+
+    $default  reduce using rule 29 (NP)
+
+    NP  go to state 70
+
+
+State 38
+
+   36 block: BEGINN stmtlist . END
+   39 stmtlist: stmtlist . SEMICOLON M stmt
+
+    END        shift, and go to state 71
+    SEMICOLON  shift, and go to state 72
+
+
+State 39
+
+   38 stmtlist: stmt .
+
+    $default  reduce using rule 38 (stmtlist)
+
+
+State 40
+
+   69 exp: lvalue .
+   79 boolexp: lvalue .
+
+    GREATERTHAN   reduce using rule 79 (boolexp)
+    GREATEREQUAL  reduce using rule 79 (boolexp)
+    NOTEQUAL      reduce using rule 79 (boolexp)
+    EQUAL         reduce using rule 79 (boolexp)
+    LESSTHAN      reduce using rule 79 (boolexp)
+    LESSEQUAL     reduce using rule 79 (boolexp)
+    $default      reduce using rule 69 (exp)
+
+
+State 41
+
+   43 stmt: IF exp . THEN M block
+   44     | IF exp . THEN M block ELSE NS M block
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    THEN      shift, and go to state 73
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+
+State 42
+
+   45 stmt: WHILE M . exp DO M block
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 74
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 43
+
+   40 lvalue: IDENTIFIER .
+
+    $default  reduce using rule 40 (lvalue)
+
+
+State 44
+
+   48 stmt: FOR lvalue . DECLARE exp TO $@9 M exp $@10 DO block M
+   51     | FOR lvalue . DECLARE exp DOWNTO $@11 M exp $@12 DO block M
+
+    DECLARE  shift, and go to state 75
+
+
+State 45
+
+   53 stmt: CASE exp . $@13 caseelement M END
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+    $default  reduce using rule 52 ($@13)
+
+    $@13  go to state 76
+
+
+State 46
+
+   55 stmt: RETURN exp . $@14 ret
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+    $default  reduce using rule 54 ($@14)
+
+    $@14  go to state 77
+
+
+State 47
+
+   70 exp: IDENTIFIER OPPAR . explist CPAR
+   80 boolexp: IDENTIFIER OPPAR . explist CPAR
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    $default  reduce using rule 85 (explist)
+
+    lvalue    go to state 40
+    exp       go to state 78
+    constant  go to state 34
+    boolexp   go to state 35
+    explist   go to state 79
+
+
+State 48
+
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+   64    | OPPAR exp . CPAR
+   74 boolexp: OPPAR exp . CPAR
+
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    CPAR      shift, and go to state 80
+    PLUS      shift, and go to state 61
+
+
+State 49
+
+    5 declist: declist dec .
+
+    $default  reduce using rule 5 (declist)
+
+
+State 50
+
+    1 program: PROGRAM IDENTIFIER PM SEMICOLON declist block . M SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 81
+
+
+State 51
+
+   12 iddec: IDENTIFIER .
+   14      | IDENTIFIER . $@1 DECLARE exp
+
+    DECLARE   reduce using rule 13 ($@1)
+    $default  reduce using rule 12 (iddec)
+
+    $@1  go to state 82
+
+
+State 52
+
+   15 idlist: iddec .
+
+    $default  reduce using rule 15 (idlist)
+
+
+State 53
+
+   16 idlist: idlist . COMMA iddec
+   17 vardec: type idlist . SEMICOLON
+
+    COMMA      shift, and go to state 83
+    SEMICOLON  shift, and go to state 84
+
+
+State 54
+
+    2 program: PROGRAM IDENTIFIER PM SEMICOLON block M . SEMICOLON
+
+    SEMICOLON  shift, and go to state 85
+
+
+State 55
+
+   42 stmt: lvalue DECLARE . $@8 exp
+
+    $default  reduce using rule 41 ($@8)
+
+    $@8  go to state 86
+
+
+State 56
+
+   58 exp: exp ANDTHEN . M exp
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 87
+
+
+State 57
+
+   59 exp: exp ORELSE . M exp
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 88
+
+
+State 58
+
+   61 exp: exp MINUS . exp
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 89
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 59
+
+   62 exp: exp MULTIPLY . exp
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 90
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 60
+
+   63 exp: exp DIVISION . exp
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 91
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 61
+
+   60 exp: exp PLUS . exp
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 92
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 62
+
+   86 relop: GREATERTHAN .
+
+    $default  reduce using rule 86 (relop)
+
+
+State 63
+
+   87 relop: GREATEREQUAL .
+
+    $default  reduce using rule 87 (relop)
+
+
+State 64
+
+   88 relop: NOTEQUAL .
+
+    $default  reduce using rule 88 (relop)
+
+
+State 65
+
+   89 relop: EQUAL .
+
+    $default  reduce using rule 89 (relop)
+
+
+State 66
+
+   90 relop: LESSTHAN .
+
+    $default  reduce using rule 90 (relop)
+
+
+State 67
+
+   91 relop: LESSEQUAL .
+
+    $default  reduce using rule 91 (relop)
+
+
+State 68
+
+   65 exp: boolexp relop . boolexp
+
+    INTEGER     shift, and go to state 93
+    REALNUM     shift, and go to state 94
+    IDENTIFIER  shift, and go to state 95
+    OPPAR       shift, and go to state 96
+    FALSE       shift, and go to state 97
+    TRUE        shift, and go to state 98
+
+    lvalue   go to state 99
+    boolexp  go to state 100
+
+
+State 69
+
+   20 procdec: PROCEDURE IDENTIFIER NP . OPPAR paramdecs CPAR M $@2 declist $@3 block M ret M SEMICOLON
+   22        | PROCEDURE IDENTIFIER NP . OPPAR paramdecs CPAR M $@4 block M ret M SEMICOLON
+
+    OPPAR  shift, and go to state 101
+
+
+State 70
+
+   25 funcdec: FUNCTION IDENTIFIER NP . OPPAR paramdecs CPAR COLON type M $@5 declist $@6 block M ret M SEMICOLON
+   27        | FUNCTION IDENTIFIER NP . OPPAR paramdecs CPAR COLON type M $@7 block M ret M SEMICOLON
+
+    OPPAR  shift, and go to state 102
+
+
+State 71
+
+   36 block: BEGINN stmtlist END .
+
+    $default  reduce using rule 36 (block)
+
+
+State 72
+
+   39 stmtlist: stmtlist SEMICOLON . M stmt
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 103
+
+
+State 73
+
+   43 stmt: IF exp THEN . M block
+   44     | IF exp THEN . M block ELSE NS M block
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 104
+
+
+State 74
+
+   45 stmt: WHILE M exp . DO M block
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    DO        shift, and go to state 105
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+
+State 75
+
+   48 stmt: FOR lvalue DECLARE . exp TO $@9 M exp $@10 DO block M
+   51     | FOR lvalue DECLARE . exp DOWNTO $@11 M exp $@12 DO block M
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 106
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 76
+
+   53 stmt: CASE exp $@13 . caseelement M END
+
+    INTEGER  shift, and go to state 107
+
+    caseelement  go to state 108
+
+
+State 77
+
+   55 stmt: RETURN exp $@14 . ret
+
+    $default  reduce using rule 28 (ret)
+
+    ret  go to state 109
+
+
+State 78
+
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+   83 explist: exp .
+
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+    $default  reduce using rule 83 (explist)
+
+
+State 79
+
+   70 exp: IDENTIFIER OPPAR explist . CPAR
+   80 boolexp: IDENTIFIER OPPAR explist . CPAR
+   84 explist: explist . COMMA exp
+
+    COMMA  shift, and go to state 110
+    CPAR   shift, and go to state 111
+
+
+State 80
+
+   64 exp: OPPAR exp CPAR .
+   74 boolexp: OPPAR exp CPAR .
+
+    GREATERTHAN   reduce using rule 74 (boolexp)
+    GREATEREQUAL  reduce using rule 74 (boolexp)
+    NOTEQUAL      reduce using rule 74 (boolexp)
+    EQUAL         reduce using rule 74 (boolexp)
+    LESSTHAN      reduce using rule 74 (boolexp)
+    LESSEQUAL     reduce using rule 74 (boolexp)
+    $default      reduce using rule 64 (exp)
+
+
+State 81
+
+    1 program: PROGRAM IDENTIFIER PM SEMICOLON declist block M . SEMICOLON
+
+    SEMICOLON  shift, and go to state 112
+
+
+State 82
+
+   14 iddec: IDENTIFIER $@1 . DECLARE exp
+
+    DECLARE  shift, and go to state 113
+
+
+State 83
+
+   16 idlist: idlist COMMA . iddec
+
+    IDENTIFIER  shift, and go to state 51
+
+    iddec  go to state 114
+
+
+State 84
+
+   17 vardec: type idlist SEMICOLON .
+
+    $default  reduce using rule 17 (vardec)
+
+
+State 85
+
+    2 program: PROGRAM IDENTIFIER PM SEMICOLON block M SEMICOLON .
+
+    $default  reduce using rule 2 (program)
+
+
+State 86
+
+   42 stmt: lvalue DECLARE $@8 . exp
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 115
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 87
+
+   58 exp: exp ANDTHEN M . exp
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 116
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 88
+
+   59 exp: exp ORELSE M . exp
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 117
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 89
+
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   61    | exp MINUS exp .
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+
+    $default  reduce using rule 61 (exp)
+
+
+State 90
+
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   62    | exp MULTIPLY exp .
+   63    | exp . DIVISION exp
+
+    $default  reduce using rule 62 (exp)
+
+
+State 91
+
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+   63    | exp DIVISION exp .
+
+    $default  reduce using rule 63 (exp)
+
+
+State 92
+
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   60    | exp PLUS exp .
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+
+    $default  reduce using rule 60 (exp)
+
+
+State 93
+
+   75 boolexp: INTEGER .
+
+    $default  reduce using rule 75 (boolexp)
+
+
+State 94
+
+   76 boolexp: REALNUM .
+
+    $default  reduce using rule 76 (boolexp)
+
+
+State 95
+
+   40 lvalue: IDENTIFIER .
+   80 boolexp: IDENTIFIER . OPPAR explist CPAR
+
+    OPPAR  shift, and go to state 118
+
+    $default  reduce using rule 40 (lvalue)
+
+
+State 96
+
+   74 boolexp: OPPAR . exp CPAR
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 119
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 97
+
+   78 boolexp: FALSE .
+
+    $default  reduce using rule 78 (boolexp)
+
+
+State 98
+
+   77 boolexp: TRUE .
+
+    $default  reduce using rule 77 (boolexp)
+
+
+State 99
+
+   79 boolexp: lvalue .
+
+    $default  reduce using rule 79 (boolexp)
+
+
+State 100
+
+   65 exp: boolexp relop boolexp .
+
+    $default  reduce using rule 65 (exp)
+
+
+State 101
+
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR . paramdecs CPAR M $@2 declist $@3 block M ret M SEMICOLON
+   22        | PROCEDURE IDENTIFIER NP OPPAR . paramdecs CPAR M $@4 block M ret M SEMICOLON
+
+    INT   shift, and go to state 9
+    REAL  shift, and go to state 10
+    BOOL  shift, and go to state 11
+
+    $default  reduce using rule 32 (paramdecs)
+
+    type       go to state 120
+    paramdecs  go to state 121
+    paramdec   go to state 122
+
+
+State 102
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR . paramdecs CPAR COLON type M $@5 declist $@6 block M ret M SEMICOLON
+   27        | FUNCTION IDENTIFIER NP OPPAR . paramdecs CPAR COLON type M $@7 block M ret M SEMICOLON
+
+    INT   shift, and go to state 9
+    REAL  shift, and go to state 10
+    BOOL  shift, and go to state 11
+
+    $default  reduce using rule 32 (paramdecs)
+
+    type       go to state 120
+    paramdecs  go to state 123
+    paramdec   go to state 122
+
+
+State 103
+
+   39 stmtlist: stmtlist SEMICOLON M . stmt
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 31
+    stmt      go to state 124
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 104
+
+   43 stmt: IF exp THEN M . block
+   44     | IF exp THEN M . block ELSE NS M block
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    block     go to state 125
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 105
+
+   45 stmt: WHILE M exp DO . M block
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 126
+
+
+State 106
+
+   48 stmt: FOR lvalue DECLARE exp . TO $@9 M exp $@10 DO block M
+   51     | FOR lvalue DECLARE exp . DOWNTO $@11 M exp $@12 DO block M
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    TO        shift, and go to state 127
+    DOWNTO    shift, and go to state 128
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+
+State 107
+
+   81 caseelement: INTEGER . COLON M block SEMICOLON
+
+    COLON  shift, and go to state 129
+
+
+State 108
+
+   53 stmt: CASE exp $@13 caseelement . M END
+   82 caseelement: caseelement . INTEGER COLON M block SEMICOLON
+
+    INTEGER  shift, and go to state 130
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 131
+
+
+State 109
+
+   55 stmt: RETURN exp $@14 ret .
+
+    $default  reduce using rule 55 (stmt)
+
+
+State 110
+
+   84 explist: explist COMMA . exp
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 132
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 111
+
+   70 exp: IDENTIFIER OPPAR explist CPAR .
+   80 boolexp: IDENTIFIER OPPAR explist CPAR .
+
+    GREATERTHAN   reduce using rule 80 (boolexp)
+    GREATEREQUAL  reduce using rule 80 (boolexp)
+    NOTEQUAL      reduce using rule 80 (boolexp)
+    EQUAL         reduce using rule 80 (boolexp)
+    LESSTHAN      reduce using rule 80 (boolexp)
+    LESSEQUAL     reduce using rule 80 (boolexp)
+    $default      reduce using rule 70 (exp)
+
+
+State 112
+
+    1 program: PROGRAM IDENTIFIER PM SEMICOLON declist block M SEMICOLON .
+
+    $default  reduce using rule 1 (program)
+
+
+State 113
+
+   14 iddec: IDENTIFIER $@1 DECLARE . exp
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 133
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 114
+
+   16 idlist: idlist COMMA iddec .
+
+    $default  reduce using rule 16 (idlist)
+
+
+State 115
+
+   42 stmt: lvalue DECLARE $@8 exp .
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+    $default  reduce using rule 42 (stmt)
+
+
+State 116
+
+   58 exp: exp . ANDTHEN M exp
+   58    | exp ANDTHEN M exp .
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+    $default  reduce using rule 58 (exp)
+
+
+State 117
+
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   59    | exp ORELSE M exp .
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+    $default  reduce using rule 59 (exp)
+
+
+State 118
+
+   80 boolexp: IDENTIFIER OPPAR . explist CPAR
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    $default  reduce using rule 85 (explist)
+
+    lvalue    go to state 40
+    exp       go to state 78
+    constant  go to state 34
+    boolexp   go to state 35
+    explist   go to state 134
+
+
+State 119
+
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+   74 boolexp: OPPAR exp . CPAR
+
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    CPAR      shift, and go to state 135
+    PLUS      shift, and go to state 61
+
+
+State 120
+
+   33 paramdec: type . paramlist
+
+    IDENTIFIER  shift, and go to state 136
+
+    paramlist  go to state 137
+
+
+State 121
+
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs . CPAR M $@2 declist $@3 block M ret M SEMICOLON
+   22        | PROCEDURE IDENTIFIER NP OPPAR paramdecs . CPAR M $@4 block M ret M SEMICOLON
+   31 paramdecs: paramdecs . SEMICOLON paramdec
+
+    SEMICOLON  shift, and go to state 138
+    CPAR       shift, and go to state 139
+
+
+State 122
+
+   30 paramdecs: paramdec .
+
+    $default  reduce using rule 30 (paramdecs)
+
+
+State 123
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs . CPAR COLON type M $@5 declist $@6 block M ret M SEMICOLON
+   27        | FUNCTION IDENTIFIER NP OPPAR paramdecs . CPAR COLON type M $@7 block M ret M SEMICOLON
+   31 paramdecs: paramdecs . SEMICOLON paramdec
+
+    SEMICOLON  shift, and go to state 138
+    CPAR       shift, and go to state 140
+
+
+State 124
+
+   39 stmtlist: stmtlist SEMICOLON M stmt .
+
+    $default  reduce using rule 39 (stmtlist)
+
+
+State 125
+
+   43 stmt: IF exp THEN M block .
+   44     | IF exp THEN M block . ELSE NS M block
+
+    ELSE  shift, and go to state 141
+
+    $default  reduce using rule 43 (stmt)
+
+
+State 126
+
+   45 stmt: WHILE M exp DO M . block
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    block     go to state 142
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 127
+
+   48 stmt: FOR lvalue DECLARE exp TO . $@9 M exp $@10 DO block M
+
+    $default  reduce using rule 46 ($@9)
+
+    $@9  go to state 143
+
+
+State 128
+
+   51 stmt: FOR lvalue DECLARE exp DOWNTO . $@11 M exp $@12 DO block M
+
+    $default  reduce using rule 49 ($@11)
+
+    $@11  go to state 144
+
+
+State 129
+
+   81 caseelement: INTEGER COLON . M block SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 145
+
+
+State 130
+
+   82 caseelement: caseelement INTEGER . COLON M block SEMICOLON
+
+    COLON  shift, and go to state 146
+
+
+State 131
+
+   53 stmt: CASE exp $@13 caseelement M . END
+
+    END  shift, and go to state 147
+
+
+State 132
+
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+   84 explist: explist COMMA exp .
+
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+    $default  reduce using rule 84 (explist)
+
+
+State 133
+
+   14 iddec: IDENTIFIER $@1 DECLARE exp .
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+    $default  reduce using rule 14 (iddec)
+
+
+State 134
+
+   80 boolexp: IDENTIFIER OPPAR explist . CPAR
+   84 explist: explist . COMMA exp
+
+    COMMA  shift, and go to state 110
+    CPAR   shift, and go to state 148
+
+
+State 135
+
+   74 boolexp: OPPAR exp CPAR .
+
+    $default  reduce using rule 74 (boolexp)
+
+
+State 136
+
+   34 paramlist: IDENTIFIER .
+
+    $default  reduce using rule 34 (paramlist)
+
+
+State 137
+
+   33 paramdec: type paramlist .
+   35 paramlist: paramlist . COMMA IDENTIFIER
+
+    COMMA  shift, and go to state 149
+
+    $default  reduce using rule 33 (paramdec)
+
+
+State 138
+
+   31 paramdecs: paramdecs SEMICOLON . paramdec
+
+    INT   shift, and go to state 9
+    REAL  shift, and go to state 10
+    BOOL  shift, and go to state 11
+
+    type      go to state 120
+    paramdec  go to state 150
+
+
+State 139
+
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR . M $@2 declist $@3 block M ret M SEMICOLON
+   22        | PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR . M $@4 block M ret M SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 151
+
+
+State 140
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR . COLON type M $@5 declist $@6 block M ret M SEMICOLON
+   27        | FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR . COLON type M $@7 block M ret M SEMICOLON
+
+    COLON  shift, and go to state 152
+
+
+State 141
+
+   44 stmt: IF exp THEN M block ELSE . NS M block
+
+    $default  reduce using rule 57 (NS)
+
+    NS  go to state 153
+
+
+State 142
+
+   45 stmt: WHILE M exp DO M block .
+
+    $default  reduce using rule 45 (stmt)
+
+
+State 143
+
+   48 stmt: FOR lvalue DECLARE exp TO $@9 . M exp $@10 DO block M
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 154
+
+
+State 144
+
+   51 stmt: FOR lvalue DECLARE exp DOWNTO $@11 . M exp $@12 DO block M
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 155
+
+
+State 145
+
+   81 caseelement: INTEGER COLON M . block SEMICOLON
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    block     go to state 156
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 146
+
+   82 caseelement: caseelement INTEGER COLON . M block SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 157
+
+
+State 147
+
+   53 stmt: CASE exp $@13 caseelement M END .
+
+    $default  reduce using rule 53 (stmt)
+
+
+State 148
+
+   80 boolexp: IDENTIFIER OPPAR explist CPAR .
+
+    $default  reduce using rule 80 (boolexp)
+
+
+State 149
+
+   35 paramlist: paramlist COMMA . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 158
+
+
+State 150
+
+   31 paramdecs: paramdecs SEMICOLON paramdec .
+
+    $default  reduce using rule 31 (paramdecs)
+
+
+State 151
+
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M . $@2 declist $@3 block M ret M SEMICOLON
+   22        | PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M . $@4 block M ret M SEMICOLON
+
+    INT        reduce using rule 18 ($@2)
+    REAL       reduce using rule 18 ($@2)
+    BOOL       reduce using rule 18 ($@2)
+    PROCEDURE  reduce using rule 18 ($@2)
+    FUNCTION   reduce using rule 18 ($@2)
+    $default   reduce using rule 21 ($@4)
+
+    $@2  go to state 159
+    $@4  go to state 160
+
+
+State 152
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON . type M $@5 declist $@6 block M ret M SEMICOLON
+   27        | FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON . type M $@7 block M ret M SEMICOLON
+
+    INT   shift, and go to state 9
+    REAL  shift, and go to state 10
+    BOOL  shift, and go to state 11
+
+    type  go to state 161
+
+
+State 153
+
+   44 stmt: IF exp THEN M block ELSE NS . M block
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 162
+
+
+State 154
+
+   48 stmt: FOR lvalue DECLARE exp TO $@9 M . exp $@10 DO block M
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 163
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 155
+
+   51 stmt: FOR lvalue DECLARE exp DOWNTO $@11 M . exp $@12 DO block M
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    lvalue    go to state 40
+    exp       go to state 164
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 156
+
+   81 caseelement: INTEGER COLON M block . SEMICOLON
+
+    SEMICOLON  shift, and go to state 165
+
+
+State 157
+
+   82 caseelement: caseelement INTEGER COLON M . block SEMICOLON
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    block     go to state 166
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 158
+
+   35 paramlist: paramlist COMMA IDENTIFIER .
+
+    $default  reduce using rule 35 (paramlist)
+
+
+State 159
+
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@2 . declist $@3 block M ret M SEMICOLON
+
+    INT        shift, and go to state 9
+    REAL       shift, and go to state 10
+    BOOL       shift, and go to state 11
+    PROCEDURE  shift, and go to state 12
+    FUNCTION   shift, and go to state 13
+
+    declist  go to state 167
+    dec      go to state 25
+    type     go to state 26
+    vardec   go to state 27
+    procdec  go to state 28
+    funcdec  go to state 29
+
+
+State 160
+
+   22 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@4 . block M ret M SEMICOLON
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    block     go to state 168
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 161
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type . M $@5 declist $@6 block M ret M SEMICOLON
+   27        | FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type . M $@7 block M ret M SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 169
+
+
+State 162
+
+   44 stmt: IF exp THEN M block ELSE NS M . block
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    block     go to state 170
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 163
+
+   48 stmt: FOR lvalue DECLARE exp TO $@9 M exp . $@10 DO block M
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+    $default  reduce using rule 47 ($@10)
+
+    $@10  go to state 171
+
+
+State 164
+
+   51 stmt: FOR lvalue DECLARE exp DOWNTO $@11 M exp . $@12 DO block M
+   58 exp: exp . ANDTHEN M exp
+   59    | exp . ORELSE M exp
+   60    | exp . PLUS exp
+   61    | exp . MINUS exp
+   62    | exp . MULTIPLY exp
+   63    | exp . DIVISION exp
+
+    ANDTHEN   shift, and go to state 56
+    ORELSE    shift, and go to state 57
+    MINUS     shift, and go to state 58
+    MULTIPLY  shift, and go to state 59
+    DIVISION  shift, and go to state 60
+    PLUS      shift, and go to state 61
+
+    $default  reduce using rule 50 ($@12)
+
+    $@12  go to state 172
+
+
+State 165
+
+   81 caseelement: INTEGER COLON M block SEMICOLON .
+
+    $default  reduce using rule 81 (caseelement)
+
+
+State 166
+
+   82 caseelement: caseelement INTEGER COLON M block . SEMICOLON
+
+    SEMICOLON  shift, and go to state 173
+
+
+State 167
+
+    5 declist: declist . dec
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@2 declist . $@3 block M ret M SEMICOLON
+
+    INT        shift, and go to state 9
+    REAL       shift, and go to state 10
+    BOOL       shift, and go to state 11
+    PROCEDURE  shift, and go to state 12
+    FUNCTION   shift, and go to state 13
+
+    $default  reduce using rule 19 ($@3)
+
+    dec      go to state 49
+    type     go to state 26
+    vardec   go to state 27
+    procdec  go to state 28
+    $@3      go to state 174
+    funcdec  go to state 29
+
+
+State 168
+
+   22 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@4 block . M ret M SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 175
+
+
+State 169
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M . $@5 declist $@6 block M ret M SEMICOLON
+   27        | FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M . $@7 block M ret M SEMICOLON
+
+    INT        reduce using rule 23 ($@5)
+    REAL       reduce using rule 23 ($@5)
+    BOOL       reduce using rule 23 ($@5)
+    PROCEDURE  reduce using rule 23 ($@5)
+    FUNCTION   reduce using rule 23 ($@5)
+    $default   reduce using rule 26 ($@7)
+
+    $@5  go to state 176
+    $@7  go to state 177
+
+
+State 170
+
+   44 stmt: IF exp THEN M block ELSE NS M block .
+
+    $default  reduce using rule 44 (stmt)
+
+
+State 171
+
+   48 stmt: FOR lvalue DECLARE exp TO $@9 M exp $@10 . DO block M
+
+    DO  shift, and go to state 178
+
+
+State 172
+
+   51 stmt: FOR lvalue DECLARE exp DOWNTO $@11 M exp $@12 . DO block M
+
+    DO  shift, and go to state 179
+
+
+State 173
+
+   82 caseelement: caseelement INTEGER COLON M block SEMICOLON .
+
+    $default  reduce using rule 82 (caseelement)
+
+
+State 174
+
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@2 declist $@3 . block M ret M SEMICOLON
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    block     go to state 180
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 175
+
+   22 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@4 block M . ret M SEMICOLON
+
+    $default  reduce using rule 28 (ret)
+
+    ret  go to state 181
+
+
+State 176
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@5 . declist $@6 block M ret M SEMICOLON
+
+    INT        shift, and go to state 9
+    REAL       shift, and go to state 10
+    BOOL       shift, and go to state 11
+    PROCEDURE  shift, and go to state 12
+    FUNCTION   shift, and go to state 13
+
+    declist  go to state 182
+    dec      go to state 25
+    type     go to state 26
+    vardec   go to state 27
+    procdec  go to state 28
+    funcdec  go to state 29
+
+
+State 177
+
+   27 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@7 . block M ret M SEMICOLON
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    block     go to state 183
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 178
+
+   48 stmt: FOR lvalue DECLARE exp TO $@9 M exp $@10 DO . block M
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    block     go to state 184
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 179
+
+   51 stmt: FOR lvalue DECLARE exp DOWNTO $@11 M exp $@12 DO . block M
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    block     go to state 185
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 180
+
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@2 declist $@3 block . M ret M SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 186
+
+
+State 181
+
+   22 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@4 block M ret . M SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 187
+
+
+State 182
+
+    5 declist: declist . dec
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@5 declist . $@6 block M ret M SEMICOLON
+
+    INT        shift, and go to state 9
+    REAL       shift, and go to state 10
+    BOOL       shift, and go to state 11
+    PROCEDURE  shift, and go to state 12
+    FUNCTION   shift, and go to state 13
+
+    $default  reduce using rule 24 ($@6)
+
+    dec      go to state 49
+    type     go to state 26
+    vardec   go to state 27
+    procdec  go to state 28
+    funcdec  go to state 29
+    $@6      go to state 188
+
+
+State 183
+
+   27 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@7 block . M ret M SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 189
+
+
+State 184
+
+   48 stmt: FOR lvalue DECLARE exp TO $@9 M exp $@10 DO block . M
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 190
+
+
+State 185
+
+   51 stmt: FOR lvalue DECLARE exp DOWNTO $@11 M exp $@12 DO block . M
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 191
+
+
+State 186
+
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@2 declist $@3 block M . ret M SEMICOLON
+
+    $default  reduce using rule 28 (ret)
+
+    ret  go to state 192
+
+
+State 187
+
+   22 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@4 block M ret M . SEMICOLON
+
+    SEMICOLON  shift, and go to state 193
+
+
+State 188
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@5 declist $@6 . block M ret M SEMICOLON
+
+    INTEGER     shift, and go to state 7
+    REALNUM     shift, and go to state 8
+    BEGINN      shift, and go to state 14
+    IF          shift, and go to state 15
+    WHILE       shift, and go to state 16
+    FOR         shift, and go to state 17
+    CASE        shift, and go to state 18
+    RETURN      shift, and go to state 19
+    IDENTIFIER  shift, and go to state 20
+    OPPAR       shift, and go to state 21
+    FALSE       shift, and go to state 22
+    TRUE        shift, and go to state 23
+
+    block     go to state 194
+    lvalue    go to state 31
+    stmt      go to state 32
+    exp       go to state 33
+    constant  go to state 34
+    boolexp   go to state 35
+
+
+State 189
+
+   27 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@7 block M . ret M SEMICOLON
+
+    $default  reduce using rule 28 (ret)
+
+    ret  go to state 195
+
+
+State 190
+
+   48 stmt: FOR lvalue DECLARE exp TO $@9 M exp $@10 DO block M .
+
+    $default  reduce using rule 48 (stmt)
+
+
+State 191
+
+   51 stmt: FOR lvalue DECLARE exp DOWNTO $@11 M exp $@12 DO block M .
+
+    $default  reduce using rule 51 (stmt)
+
+
+State 192
+
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@2 declist $@3 block M ret . M SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 196
+
+
+State 193
+
+   22 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@4 block M ret M SEMICOLON .
+
+    $default  reduce using rule 22 (procdec)
+
+
+State 194
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@5 declist $@6 block . M ret M SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 197
+
+
+State 195
+
+   27 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@7 block M ret . M SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 198
+
+
+State 196
+
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@2 declist $@3 block M ret M . SEMICOLON
+
+    SEMICOLON  shift, and go to state 199
+
+
+State 197
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@5 declist $@6 block M . ret M SEMICOLON
+
+    $default  reduce using rule 28 (ret)
+
+    ret  go to state 200
+
+
+State 198
+
+   27 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@7 block M ret M . SEMICOLON
+
+    SEMICOLON  shift, and go to state 201
+
+
+State 199
+
+   20 procdec: PROCEDURE IDENTIFIER NP OPPAR paramdecs CPAR M $@2 declist $@3 block M ret M SEMICOLON .
+
+    $default  reduce using rule 20 (procdec)
+
+
+State 200
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@5 declist $@6 block M ret . M SEMICOLON
+
+    $default  reduce using rule 71 (M)
+
+    M  go to state 202
+
+
+State 201
+
+   27 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@7 block M ret M SEMICOLON .
+
+    $default  reduce using rule 27 (funcdec)
+
+
+State 202
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@5 declist $@6 block M ret M . SEMICOLON
+
+    SEMICOLON  shift, and go to state 203
+
+
+State 203
+
+   25 funcdec: FUNCTION IDENTIFIER NP OPPAR paramdecs CPAR COLON type M $@5 declist $@6 block M ret M SEMICOLON .
+
+    $default  reduce using rule 25 (funcdec)

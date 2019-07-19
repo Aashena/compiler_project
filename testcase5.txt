@@ -1,0 +1,16 @@
+Program p5main;
+Int i1;
+Int x1;
+Int a1;
+Int b1;
+Function f1(Int a1, b1): Int
+Begin 
+	i1:=a1+b1;
+	Return i1
+End;
+
+Begin
+
+x1:= f1(#3,#6)
+
+End;

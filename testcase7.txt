@@ -1,0 +1,22 @@
+Program p7main;
+
+Int n2;
+Function f1b (Int n1): Int 
+Int x1;
+Int x2;
+Begin
+	If (n1 .LT. #2) Then Begin
+		Return n1
+	End
+	Else 
+	Begin
+		
+		Return f1b(n1-#1)+f1b(n1-#2)
+	End
+End
+;
+Begin 
+
+n2:=f1b(#8)
+	
+End;

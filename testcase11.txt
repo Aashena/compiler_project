@@ -1,0 +1,24 @@
+
+Program p11main;
+
+
+Bool x1;
+Procedure p1(Int i1; Bool b2)
+	
+	Function f1(Int i1): Bool
+	Begin 	
+			Case i1
+				#1 :Begin
+					Return True
+					End;
+				
+				#2 : Return False;
+			End
+	End;	
+   Begin 
+		x1:=f1(#1)
+   End;	
+
+Begin 
+	p1(#5,False)
+End;

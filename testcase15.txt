@@ -1,0 +1,11 @@
+Program p14main;
+
+Function f1act (Int n1): Int
+Begin
+	Return n1*n1
+End;
+
+Begin 
+
+	f1act(#5)
+End;	

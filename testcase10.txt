@@ -1,0 +1,25 @@
+
+Program p10main;
+
+Int i2:=#2;
+Int i3:= #0;
+
+
+Procedure p1(Int i1; Bool b2)
+	Int x1:=#1;
+	Function f1(): Int 
+	Begin
+		For i1:=#6 To #10 Do Begin
+			For i2 := x1 Downto #-5 Do Begin
+				i3:= #3 + i3
+			End
+		End;
+		Return i2
+	End;
+Begin 
+	x1:=f1()
+End;	
+
+Begin 
+	p1(#5,False)
+End;

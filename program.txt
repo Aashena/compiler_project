@@ -1,0 +1,45 @@
+program a1 ;
+
+int f1 :=#101,b2:=#1;
+
+
+
+real g2:=#10.0,g1;
+
+bool h1123:=false;
+
+procedure p1 (int j1 ; bool b1)
+
+	int f2:=#101;
+ 	begin
+ 		if b1 and then j1 then 
+ 		 f1:=j1+f2;
+ 		else 
+ 		 f1:=j1*f2; 
+ 	end;
+function m1(int k1,l1 ; real n1):bool
+    int c1:=#0;
+	begin 
+		while k1 .GT. n1 do
+		begin
+			k1:= k1 / l1;
+			c1:=c1+#1
+		end	
+	return c1
+	end;
+begin 
+	case b2
+		#1: 
+		p1(f1;true);
+		#2:
+		p1(f1;false);
+		#3:
+		f1:=m1(f1,#5;g2);
+	end
+	if f1-#2 .LT. #4 or else f1+#2 .EQ. #0 then 
+	 for b2 := #0 to #3+#9*#2 do
+	 	f1:=f1+#1
+	for b2:=#10 to #0 downto
+		f1:=f1*#2	
+
+end;

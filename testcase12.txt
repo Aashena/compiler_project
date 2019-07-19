@@ -1,0 +1,36 @@
+Program p1main12;
+Bool x1;
+Bool i6;
+Int i3;
+Int i2;
+Bool x2;
+Function f1(Int i1; Bool b1): Bool
+Int i4:=#2;
+Begin
+	For i2:= i1 To #15 Do Begin
+		For i3:=#2  Downto #-10 Do Begin
+			b1:= b1 And Then (i4 .LT. #10)
+		End
+	End;
+	Return b1
+End;
+
+
+Function f2(): Bool
+Begin 
+	x2:=f1(#2,False);
+	
+    Return x2
+End;
+
+Begin 
+
+x1:=f2()
+
+End 
+;
+
+	
+
+
+

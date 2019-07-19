@@ -1,0 +1,29 @@
+Program p2main;
+
+Int i2:=#15;
+Int i3:=#20;
+Int i4:=#10;
+Int b1:=#11;
+Int i5:=#3;
+
+Begin
+
+  While i4 .LT. i3 Do Begin
+		For i2 := i3 Downto #5 Do Begin
+					i4:=i4+#2
+				End
+	End;
+
+ Case i5
+		#1 : Begin
+			True
+		End;
+		
+		#2 : False;
+		#3 : If i4 .GT. i2 Or Else i3 .LT. i2 Then Begin 
+   			i4 := i4 + #3
+   		End;	
+
+  End
+
+End;
